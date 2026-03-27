@@ -107,9 +107,14 @@ async function handleLogout() {
 // ==========================================
 
 function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
     const activeTab = document.getElementById(`tab-${tabId}`);
-    if (activeTab) activeTab.classList.remove('hidden');
+    
+    if (!activeTab || !activeTab.classList.contains('hidden')) {
+        return;
+    }
+
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+    activeTab.classList.remove('hidden');
     
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.toggle('text-purple-500', btn.id === `btn-${tabId}`);
