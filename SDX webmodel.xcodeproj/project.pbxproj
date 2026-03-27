@@ -35,16 +35,6 @@
 			path = "SDX webmodel";
 			sourceTree = "<group>";
 		};
-		8E32F9602F76E21300584FBD /* SDX webmodelTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "SDX webmodelTests";
-			sourceTree = "<group>";
-		};
-		8E32F96A2F76E21300584FBD /* SDX webmodelUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "SDX webmodelUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				8E32F9502F76E21200584FBD /* SDX webmodel */,
-				8E32F9602F76E21300584FBD /* SDX webmodelTests */,
-				8E32F96A2F76E21300584FBD /* SDX webmodelUITests */,
 				8E32F94F2F76E21200584FBD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +118,6 @@
 			dependencies = (
 				8E32F95F2F76E21300584FBD /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				8E32F9602F76E21300584FBD /* SDX webmodelTests */,
-			);
 			name = "SDX webmodelTests";
 			packageProductDependencies = (
 			);
@@ -152,9 +137,6 @@
 			);
 			dependencies = (
 				8E32F9692F76E21300584FBD /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				8E32F96A2F76E21300584FBD /* SDX webmodelUITests */,
 			);
 			name = "SDX webmodelUITests";
 			packageProductDependencies = (
@@ -391,12 +373,17 @@
 		8E32F9722F76E21300584FBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = SDX_Dark;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YZ78A69UF8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SDX-webmodel-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SNUSDEX;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -409,6 +396,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "moritz.SDX-webmodel";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -422,12 +410,17 @@
 		8E32F9732F76E21300584FBD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = SDX_Dark;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YZ78A69UF8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SDX-webmodel-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SNUSDEX;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -440,6 +433,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "moritz.SDX-webmodel";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
