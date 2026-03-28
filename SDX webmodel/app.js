@@ -3,9 +3,17 @@
 // ==========================================
 const SUPABASE_URL = 'https://aqyjrvukfuyuhlidpoxr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4gIcuQhw528DH6GrmhF16g_V8im-UMU';
-const GITHUB_BASE = 'https://raw.githubusercontent.com/HazeCCS/snusdex-assets/main/assets/'; 
+const GITHUB_BASE = 'https://raw.githubusercontent.com/HazeCCS/snusdex-assets/main/assets/';
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ==========================================
+// 2. AUTHENTIFIZIERUNG
+// ==========================================
+
+// ==========================================
+// GREETING LOGIK (Zeit & Name)
+// ==========================================
 
 async function updateGreeting() {
     const greetingElement = document.getElementById('greeting');
@@ -54,10 +62,10 @@ function initCarouselObserver() {
                 entry.target.classList.remove('active');
             }
         });
-    }, { 
-        root: carousel, 
+    }, {
+        root: carousel,
         threshold: 0.6, // Karte muss zu 60% sichtbar sein
-        rootMargin: "0px" 
+        rootMargin: "0px"
     });
 
     cards.forEach(card => observer.observe(card));
@@ -71,9 +79,9 @@ async function checkUser() {
         overlay.classList.add('opacity-0');
         setTimeout(() => overlay.classList.add('hidden'), 500);
         setupProfile(session.user);
-        loadDex(); 
+        loadDex();
         updateGreeting();
-        setTimeout(() => initCarouselObserver(), 100); 
+        setTimeout(() => initCarouselObserver(), 100);
     } else {
         overlay.classList.remove('hidden');
         overlay.classList.remove('opacity-0');
@@ -93,7 +101,7 @@ async function handleLogin() {
         if (navigator.vibrate) navigator.vibrate(50);
     } else {
         errorEl.classList.add('hidden');
-        checkUser(); 
+        checkUser();
     }
 }
 
@@ -103,7 +111,7 @@ async function handleLogout() {
 }
 
 // ==========================================
-// 3. NAVIGATION
+// 3. NAVIGATION (NEW)
 // ==========================================
 
 function switchTab(tabId) {
@@ -120,21 +128,18 @@ function switchTab(tabId) {
         btn.classList.toggle('text-purple-500', btn.id === `btn-${tabId}`);
         btn.classList.toggle('text-zinc-500', btn.id !== `btn-${tabId}`);
     });
-    
-    if (window.webkit && window.webkit.messageHandlers.hapticHandler) {
-        window.webkit.messageHandlers.hapticHandler.postMessage("vibrate");
-    }
 
     if (navigator.vibrate) navigator.vibrate(5);
     window.scrollTo(0, 0);
 }
 
+
 // ==========================================
 // 4. DATEN LADEN
 // ==========================================
 
-let globalSnusData = []; 
-let globalUserCollection = {}; 
+let globalSnusData = [];
+let globalUserCollection = {};
 
 async function loadDex() {
     const grid = document.getElementById('dex-grid');
@@ -169,7 +174,7 @@ async function loadDex() {
         const { data: snusItems, error } = await supabaseClient.from('snus_items').select('*').order('id', { ascending: true });
         if (error) throw error;
         
-        globalSnusData = snusItems; 
+        globalSnusData = snusItems;
         updateLivePerformance();
         renderDexGrid(globalSnusData);
     } catch (error) { console.error("Supabase-Fehler:", error); }
@@ -178,7 +183,7 @@ async function loadDex() {
 function renderDexGrid(items) {
     const grid = document.getElementById('dex-grid');
     if(!grid) return;
-    grid.innerHTML = ''; 
+    grid.innerHTML = '';
 
     if (items.length === 0) {
         grid.innerHTML = `<div class="col-span-3 text-center py-20 opacity-30 text-[10px] uppercase tracking-[0.2em]">Nichts gefunden 🧊</div>`;
@@ -186,8 +191,8 @@ function renderDexGrid(items) {
     }
 
     items.forEach(snus => {
-        const isUnlocked = !!globalUserCollection[snus.id]; 
-        const rarityClass = (snus.rarity || 'common').toLowerCase(); 
+        const isUnlocked = !!globalUserCollection[snus.id];
+        const rarityClass = (snus.rarity || 'common').toLowerCase();
 
         const card = `
             <div onclick="openSnusDetail(${snus.id})" class="dex-card ${isUnlocked ? 'unlocked rarity-' + rarityClass : 'locked'} relative flex flex-col items-center p-4 bg-zinc-900 border border-zinc-800 rounded-[2rem] transition-all active:scale-95 cursor-pointer">
@@ -251,7 +256,7 @@ function initRatingRows() {
             row.appendChild(btn);
         }
         updatePill(cat, 5);
-        tempRatings[cat] = 5; 
+        tempRatings[cat] = 5;
     });
 }
 
@@ -318,7 +323,7 @@ function showSavedRating() {
     `;
 
     // HTML in die leere Box schießen
-    rContainer.innerHTML = 
+    rContainer.innerHTML =
         createBar("Geschmack", ratings.taste) +
         createBar("Geruch", ratings.smell) +
         createBar("Bite", ratings.bite) +
@@ -328,7 +333,7 @@ function showSavedRating() {
 
 // ... Admin und Profil Code bleibt unangetastet ...
 function setupProfile(user) {
-    document.getElementById('profile-email').innerText = user.email.split('@')[0]; 
+    document.getElementById('profile-email').innerText = user.email.split('@')[0];
     document.getElementById('user-initials').innerText = user.email.substring(0, 1).toUpperCase();
     if (user.email === 'tarayannorman@gmail.com') document.getElementById('admin-panel')?.classList.remove('hidden');
     loadUserStats(user.id);
@@ -344,13 +349,13 @@ async function loadUserStats(userId) {
 // 9. POP-UP LOGIK (MODAL) & SAMMELN
 // ==========================================
 
-let currentSelectedSnusId = null; 
+let currentSelectedSnusId = null;
 
 function openSnusDetail(id) {
     const snus = globalSnusData.find(s => s.id === id);
     if (!snus) return;
 
-    currentSelectedSnusId = id; 
+    currentSelectedSnusId = id;
 
     document.getElementById('modal-id').innerText = `#${String(snus.id).padStart(3, '0')}`;
     document.getElementById('modal-name').innerText = snus.name;
@@ -360,7 +365,7 @@ function openSnusDetail(id) {
 
     const flavorContainer = document.getElementById('modal-flavors');
     if(flavorContainer) {
-        flavorContainer.innerHTML = ''; 
+        flavorContainer.innerHTML = '';
         if (snus.flavor && Array.isArray(snus.flavor)) {
             snus.flavor.forEach(f => {
                 flavorContainer.innerHTML += `<span class="px-3 py-1 bg-zinc-800 border border-zinc-700 rounded-full text-[9px] uppercase tracking-widest text-zinc-400">${f}</span>`;
@@ -369,8 +374,8 @@ function openSnusDetail(id) {
     }
 
     const rarityClass = snus.rarity ? snus.rarity.toLowerCase() : 'common';
-    document.getElementById('modal-name').className = `text-3xl font-black uppercase tracking-tighter mb-1 text-center text-${rarityClass}`; 
-    document.getElementById('modal-rarity-dot').className = `w-2 h-2 rounded-full shadow-[0_0_10px_currentColor] bg-${rarityClass}`; 
+    document.getElementById('modal-name').className = `text-3xl font-black uppercase tracking-tighter mb-1 text-center text-${rarityClass}`;
+    document.getElementById('modal-rarity-dot').className = `w-2 h-2 rounded-full shadow-[0_0_10px_currentColor] bg-${rarityClass}`;
 
     // UI Reset und Slider aufbauen
     showInfoView();
@@ -392,20 +397,20 @@ function openSnusDetail(id) {
     }
 
     const modal = document.getElementById('snus-modal');
-    if (!modal) return; 
+    if (!modal) return;
 
     modal.classList.remove('hidden');
     setTimeout(() => {
-        document.getElementById('modal-backdrop')?.classList.add('active'); 
-        document.getElementById('snus-modal-card')?.classList.remove('translate-y-full'); 
+        document.getElementById('modal-backdrop')?.classList.add('active');
+        document.getElementById('snus-modal-card')?.classList.remove('translate-y-full');
     }, 10);
     
     if (navigator.vibrate) navigator.vibrate(10);
 }
 
 function closeSnusDetail() {
-    document.getElementById('modal-backdrop')?.classList.remove('active'); 
-    document.getElementById('snus-modal-card')?.classList.add('translate-y-full'); 
+    document.getElementById('modal-backdrop')?.classList.remove('active');
+    document.getElementById('snus-modal-card')?.classList.add('translate-y-full');
     
     // Status und Rating View für nächstes Mal zurücksetzen
     setTimeout(() => {
@@ -433,8 +438,8 @@ async function collectCurrentSnus() {
     // Zieht die Daten jetzt aus dem JS Objekt statt aus den HTML Slidern
     const { data, error } = await supabaseClient
         .from('user_collections')
-        .insert([{ 
-            user_id: user.id, 
+        .insert([{
+            user_id: user.id,
             snus_id: currentSelectedSnusId,
             rating_taste: tempRatings.taste,
             rating_smell: tempRatings.smell,
@@ -452,7 +457,7 @@ async function collectCurrentSnus() {
         return;
     }
 
-    if (navigator.vibrate) navigator.vibrate([50, 50, 100]); 
+    if (navigator.vibrate) navigator.vibrate([50, 50, 100]);
     
     globalUserCollection[currentSelectedSnusId] = {
         date: data ? data.collected_at : new Date().toISOString(),
@@ -460,8 +465,8 @@ async function collectCurrentSnus() {
     };
     
     await loadUserStats(user.id);
-    updateLivePerformance(); 
-    filterDex(); 
+    updateLivePerformance();
+    filterDex();
 
     closeSnusDetail();
     
@@ -483,7 +488,7 @@ function filterDex() {
 
     const filteredItems = globalSnusData.filter(snus => {
         const nameMatch = snus.name && snus.name.toLowerCase().includes(searchTerm);
-        const flavorMatch = snus.flavor && Array.isArray(snus.flavor) && 
+        const flavorMatch = snus.flavor && Array.isArray(snus.flavor) &&
                             snus.flavor.some(f => f.toLowerCase().includes(searchTerm));
         return nameMatch || flavorMatch;
     });
@@ -493,8 +498,18 @@ function filterDex() {
 
 document.addEventListener('DOMContentLoaded', () => checkUser());
 
-function triggerHaptic() {
-        if (window.webkit && window.webkit.messageHandlers.hapticHandler) {
-            window.webkit.messageHandlers.hapticHandler.postMessage("vibrate");
-        }
+function triggerHapticFeedback() {
+    if (window.webkit && window.webkit.messageHandlers.hapticHandler) {
+        window.webkit.messageHandlers.hapticHandler.postMessage("vibrate");
     }
+}
+
+function handleLoginWrapper() {
+    triggerHapticFeedback();
+    handleLogin();
+}
+
+function switchTabWrapper(tabId) {
+    triggerHapticFeedback();
+    switchTab(tabId);
+}
