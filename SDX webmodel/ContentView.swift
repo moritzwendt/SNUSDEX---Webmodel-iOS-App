@@ -9,7 +9,7 @@ struct ContentView: View {
                 .ignoresSafeArea()
 
             if networkMonitor.isConnected {
-                WebView(urlString: "https://www.snusdex.com/")
+                WebView(urlString: "https://comfy-jelly-769e3a.netlify.app")
                     .allowsHitTesting(true)
                     .ignoresSafeArea()
             } else {
