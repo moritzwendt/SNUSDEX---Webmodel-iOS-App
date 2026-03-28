@@ -9,26 +9,27 @@ import SwiftUI
 import WebKit
 
 struct WebView: UIViewRepresentable {
-    let fileName: String
+    let urlString: String
 
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
 
-
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        if let url = Bundle.main.url(forResource: fileName, withExtension: "html") {
-            uiView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
-        }
-    }
-
     func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
-        
         configuration.userContentController.add(context.coordinator, name: "hapticHandler")
         
         let webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.backgroundColor = .black
+        webView.isOpaque = false 
         return webView
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            uiView.load(request)
+        }
     }
 
     class Coordinator: NSObject, WKScriptMessageHandler {
